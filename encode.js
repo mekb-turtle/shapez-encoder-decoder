@@ -4,7 +4,7 @@ const save = require("./save.js");
 const file = "savegame.json";
 const lz=require("lz-string");
 console.log("reading from",file);
-const c = fs.readFileSync(file);
+const c = fs.readFileSync(file).toString();
 console.log("file size is",c.length);
 if (c.length < 1024) throw "length is less than 1024 ("+c.length+")";
 if (c.trim()[0] != "{") throw "first char is not {";
