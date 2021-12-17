@@ -1,3 +1,4 @@
+#!/bin/env node
 const fs = require("fs");
 const save = require("./save.js");
 const file = "savegame.json";
@@ -6,6 +7,7 @@ console.log("reading from",file);
 const c = fs.readFileSync(file);
 console.log("file size is",c.length);
 if (c.length < 1024) throw "length is less than 1024 ("+c.length+")";
+if (c.trim()[0] != "{") throw "first char is not {";
 const c_ = JSON.parse(c.toString());
 const f_=JSON.stringify(save.compressObject(c_));
 console.log("compressed object");
@@ -17,16 +19,3 @@ console.log("compressed lz");
 const outFile = "savegame.bin";
 console.log("writing bin to",outFile);
 fs.writeFileSync(outFile, d);
-
-(()=>{
-return;
-const s_ = require("lz-string").decompressFromEncodedURIComponent(c_);
-console.log(s_.substring(0,s_.indexOf("{")+20));
-const s = JSON.parse(s_.substring(s_.indexOf("{")));
-const f_ = save.decompressObject(s);
-const f = JSON.stringify(f_,null,"\t");
-console.log("converted");
-const outFile = "savegame.json";
-console.log("dumping to",outFile);
-fs.writeFileSync(outFile, f);
-})();

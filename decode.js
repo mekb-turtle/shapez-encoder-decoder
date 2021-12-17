@@ -1,3 +1,4 @@
+#!/bin/env node
 const fs = require("fs");
 const save = require("./save.js");
 const file = "savegame.bin";
