@@ -1,8 +1,8 @@
 #!/bin/env node
 const fs = require("fs");
 const save = require("./save.js");
-const file = "savegame.bin";
-const lz=require("lz-string");
+const file = process.argv[2];
+const lz = require("lz-string");
 console.log("reading from",file);
 const c = fs.readFileSync(file);
 console.log("file size is",c.length);
@@ -16,6 +16,6 @@ const f_ = save.decompressObject(s);
 console.log("decompressed object");
 const f = JSON.stringify(f_,null,"\t");
 console.log("converted");
-const outFile = "savegame.json";
+const outFile = file.replace(/\.bin$/,"")+".json";
 console.log("writing json to",outFile);
 fs.writeFileSync(outFile, f);
